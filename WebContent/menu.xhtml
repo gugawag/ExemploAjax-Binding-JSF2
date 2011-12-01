@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+	  xmlns:rich="http://richfaces.org/rich">
+
+<h:head></h:head> 
+<body>
+   <table>
+   	<tr>
+   		<td><a href="listagemUsuarios.jsf">Listar Usuários</a> | </td>
+   		<td><a href="listagemMensagensRecebidas.jsf">Mensagens Recebidas</a> | </td>
+   		<h:form>
+   			<td><h:commandLink value="Deslogar" action="#{usuarioBean.deslogar}" /> | </td>
+   		</h:form>
+   		<td>#{usuarioBean.usuario.login}</td>
+   	</tr>
+   </table> 
+</body> 
+</html>

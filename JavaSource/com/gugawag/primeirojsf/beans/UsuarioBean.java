@@ -1,94 +1,99 @@
 package com.gugawag.primeirojsf.beans;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.component.html.HtmlInputText;
-import javax.faces.component.html.HtmlSelectOneMenu;
+import javax.faces.context.FacesContext;
+import javax.faces.model.DataModel;
+import javax.faces.model.ListDataModel;
+
+import com.gugawag.primeirojsf.modelo.Mensagem;
+import com.gugawag.primeirojsf.modelo.UF;
+import com.gugawag.primeirojsf.modelo.Usuario;
+import com.gugawag.primeirojsf.modelo.UsuarioJahExistenteException;
+import com.gugawag.primeirojsf.service.UsuarioService;
 
 @ManagedBean
 @SessionScoped
 public class UsuarioBean {
-	private String login;
-	private String senha;
-	private String captcha;
+
+	private Usuario usuario;
 	private boolean loginsucesso;
-	private List<String> nomes;
-	private HtmlInputText loginHtml;
-	private String nome;
-	private HtmlSelectOneMenu menu;
 	private String senhaRedigitada;
 	private String textoSenhas;
+	private DataModel<Usuario> dmUsuarios;
 	private List<String> cidades;
-	private List<String> ufs;
-	private Map<String, List<String>> mapaUFs;
-	private String ufEscolhida;
-	private String cidadeEscolhida;
+	private String styleMensagemSenha;
+
+	@EJB 
+	private UsuarioService usuarioService;
 
 	public UsuarioBean() {
 		super();
-		mapaUFs = new HashMap<String, List<String>>();
-
-		ufs = new ArrayList<String>();
-		ufs.add("PB");
-		ufs.add("PE");
-		ufs.add("RN");
-
-		List<String> cidadesPB = new ArrayList<String>();
-		cidadesPB.add("Jo‹o Pessoa");
-		cidadesPB.add("Campina Grande");
-		cidadesPB.add("Patos");
-
-		List<String> cidadesPE = new ArrayList<String>();
-		cidadesPE.add("Recife");
-		cidadesPE.add("Penedo");
-		cidadesPE.add("Ferreiros");
-
-		mapaUFs.put("PB", cidadesPB);
-		mapaUFs.put("PE", cidadesPE);
+		usuario = new Usuario();
 	}
 
+	//MŽtodos action
 	
-	public String getCidadeEscolhida() {
-		return cidadeEscolhida;
+	public void mudarUf(){
+		cidades = new UF().getUfsCidades().get(usuario.getUf());
 	}
 
-
-	public void setCidadeEscolhida(String cidadeEscolhida) {
-		this.cidadeEscolhida = cidadeEscolhida;
+	public void cadastrar() {
+		usuario.setCodigo(null);
+		try {
+			usuarioService.acrescentaAtualizaUsuario(usuario);
+		} catch (UsuarioJahExistenteException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usu‡rio j‡ cadastrado!"));
+			return;
+		}
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usu‡rio cadastrado com sucesso!"));
 	}
 
-
-	public List<String> getCidades() {
-		return cidades;
+	public String logar() {
+		Usuario usuarioALogar = usuarioService.getUsuarioPorLogin(usuario.getLogin());
+		if (usuarioALogar == null){
+			//TODO pegar essa mensagem do arquivo de properties
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usu‡rio inexistente e/ou senha inv‡lida!"));
+			return null;
+		}
+		try {
+			usuarioService.acrescentaAtualizaUsuario(usuarioALogar);
+		} catch (UsuarioJahExistenteException e) {
+			e.printStackTrace();
+			return null;
+		}
+		this.usuario = usuarioALogar;
+		return "loginlegal";
+	}
+	
+	public String deslogar(){
+		usuario = new Usuario();
+		return "inicio";
+	}
+	
+	public void checarSenhas() {
+		if (usuario.getSenha().equals(senhaRedigitada)) {
+			textoSenhas = "Senhas conferem!";
+			styleMensagemSenha = "color:blue";
+		} else {
+			textoSenhas = "Senhas n‹o conferem!";
+			styleMensagemSenha = "color:red";
+		}
+	}
+	
+	//Gets e Sets
+	
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setCidades(List<String> cidades) {
-		this.cidades = cidades;
-	}
-
-	public String getUfEscolhida() {
-		return ufEscolhida;
-	}
-
-	public void setUfEscolhida(String ufEscolhida) {
-		this.ufEscolhida = ufEscolhida;
-	}
-
-	public List<String> getUfs() {
-		return ufs;
-	}
-
-	public void setUfs(List<String> ufs) {
-		this.ufs = ufs;
-	}
-
-	public HtmlSelectOneMenu getMenu() {
-		return menu;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public String getTextoSenhas() {
@@ -107,80 +112,42 @@ public class UsuarioBean {
 		this.senhaRedigitada = senhaRedigitada;
 	}
 
-	public void setMenu(HtmlSelectOneMenu menu) {
-		this.menu = menu;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public HtmlInputText getLoginHtml() {
-		return loginHtml;
-	}
-
-	public void setLoginHtml(HtmlInputText loginHtml) {
-		this.loginHtml = loginHtml;
-	}
-
-	public List<String> getNomes() {
-		menu.setValue("Nome 2");
-		return nomes;
-	}
-
-	public String getLogin() {
-		return login;
-	}
-
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-
 	public boolean getLoginsucesso() {
 		return loginsucesso;
 	}
-
-	public String getCaptcha() {
-		return captcha;
-	}
-
-	public void setCaptcha(String captcha) {
-		this.captcha = captcha;
-	}
-
-	public String logar() {
-		if (login.equals(senha)) {
-			this.loginsucesso = true;
-			return "loginlegal";
-		}
-		this.loginsucesso = false;
-		loginHtml.setStyle("background:red");
-		return null;
+	
+	public DataModel<Usuario> getUsuarios(){
+		this.dmUsuarios = new ListDataModel<Usuario>(usuarioService.getUsuarios());
+		return dmUsuarios;
 	}
 	
-	public void checarSenhas(){
-		if (senha.equals(senhaRedigitada)){
-			textoSenhas = "Senhas conferem!";
-		} else{
-			textoSenhas = "Senhas n‹o conferem!";
-		}
+	public DataModel<Usuario> getUsuariosLogados(){
+		this.dmUsuarios = new ListDataModel<Usuario>(usuarioService.getUsuariosLogados());
+		return dmUsuarios;
 	}
 	
-	public void mudarUf(){
-		cidades = mapaUFs.get(ufEscolhida);
+	//TODO refatorar essa parte de UFs. Usar enums?
+	public Set<String> getUfs(){
+		return new UF().getUfsCidades().keySet(); 
+	}
+	
+	public List<String> getCidades(){
+		return cidades; 
+	}
+	
+	public String getStyleMensagemSenha() {
+		return styleMensagemSenha;
+	}
+
+	public void setStyleMensagemSenha(String styleMensagemSenha) {
+		this.styleMensagemSenha = styleMensagemSenha;
+	}
+	
+	public List<Mensagem> getMensagensRecebidas(){
+		usuario = usuarioService.getUsuarioPorLogin(usuario.getLogin());
+		return usuario.getMensagensRecebidas();
 	}
 
 
+	
 }

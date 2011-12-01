@@ -2,7 +2,9 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"	
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:rich="http://richfaces.org/rich">
       
 <h:head><title>Index</title>
 	<link href="./css/styles.css" 
@@ -10,36 +12,22 @@
 </h:head>
 
 <h:body>
-	<h:form>
-		Login: <h:inputText id="login" value="#{usuarioBean.login}" label="Login" binding="#{usuarioBean.loginHtml}">
-			<f:validateLength minimum="3" maximum="5"/>
-		</h:inputText>
-		<br/>
-		Senha: <h:inputText id="senha" value="#{usuarioBean.senha}" label="Senha">
-			<f:validateLength minimum="3" maximum="5"/>
-		</h:inputText>
-		
-		<h:inputText id="senhaRedigitada" value="#{usuarioBean.senhaRedigitada}" label="Senha Redigitada">
-			<f:validateLength minimum="3" maximum="5"/>
-			<f:ajax event="keyup" listener="#{usuarioBean.checarSenhas}" execute="senha senhaRedigitada"  render="textoSenhas mensagens"/>
-		</h:inputText>
-		
-		<h:outputText value="#{usuarioBean.textoSenhas}" id="textoSenhas"/>
-		<br/>
-		
-		<h:selectOneMenu value="#{usuarioBean.ufEscolhida}" id="ufs">
-			<f:selectItems value="#{usuarioBean.ufs}"/>
-			<f:ajax event="change" execute="ufs" listener="#{usuarioBean.mudarUf}" render="cidades"/>
-		</h:selectOneMenu>
-
-		<h:selectOneMenu value="#{usuarioBean.cidadeEscolhida}" id="cidades">
-			<f:selectItems value="#{usuarioBean.cidades}"/>
-		</h:selectOneMenu>
-		
-		<h:commandButton action="#{usuarioBean.logar}" value="Logar" />
-		<br/><br/>
+	<rich:panel>
+		<h:form>
+				Login: <h:inputText id="login" value="#{usuarioBean.usuario.login}" label="Login"/>
+				
+				<br/>
+				Senha: <h:inputText id="senha" value="#{usuarioBean.usuario.senha}" label="Senha"/>
+				
+				<h:commandButton action="#{usuarioBean.logar}" value="Logar"/>
+				<br/><br/>
+				
+		</h:form>
+		Não é um usuário cadastrado? clique <a href="cadastroUsuario.jsf">aqui</a>.
+			
 		<h:messages id="mensagens"/>
-	</h:form>
+		
+	</rich:panel>
 </h:body>
 
 </html>
