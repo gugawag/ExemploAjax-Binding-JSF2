@@ -12,12 +12,9 @@
 <!-- Herdando do template e definindo a ahrea principal -->
 	<ui:composition template="/template-padrao.xhtml">
 		<ui:define name="principal">
-		    <a4j:region>
-        			<h:form>
-            			<a4j:poll id="poll" interval="500" enabled="true" render="mensagens poll gridMensagens" />
-        			</h:form>
-    			</a4j:region>
+    			
     			<h:form>
+    			<a4j:poll interval="1000" render="mensagens"/>
     			<h:panelGrid columns="1" width="80%" id="gridMensagens">
 				<rich:dataTable id="mensagens" var="mensagem" value="#{usuarioBean.mensagensRecebidas}" border="1">
 					<f:facet name="header">
@@ -31,7 +28,7 @@
 					</h:column>
 				</rich:dataTable>
 			</h:panelGrid>
-			<h:inputText value="#{mensagemBean.textoMensagem}"/> <h:commandButton actionListener="#{mensagemBean.enviarMensagem(usuarioBean.usuario)}" value="Enviar Mensagem" />
+			<h:inputText value="#{mensagemBean.textoMensagem}"/> <h:commandButton action="#{mensagemBean.enviarMensagem(usuarioBean.usuario)}" value="Enviar Mensagem" />
 			</h:form>
 			<h:messages/>
 		</ui:define>

@@ -16,7 +16,7 @@ public class UF {
 		List<String> cidadesPB = new ArrayList<String>();
 		cidadesPB.add("Cajazeiras");
 		cidadesPB.add("Campina Grande");
-		cidadesPB.add("Jo‹o Pessoa");
+		cidadesPB.add("Jo‹ão Pessoa");
 		ufsCidades.put("PB", cidadesPB);
 		
 		List<String> cidadesPE = new ArrayList<String>();
@@ -28,8 +28,8 @@ public class UF {
 
 		List<String> cidadesRN = new ArrayList<String>();
 		cidadesRN.add("Natal");
-		cidadesRN.add("Au");
-		cidadesRN.add("Caic—");
+		cidadesRN.add("Açu");
+		cidadesRN.add("Caicó—");
 		ufsCidades.put("RN", cidadesRN);
 	}
 

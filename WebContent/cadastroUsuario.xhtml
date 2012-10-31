@@ -22,8 +22,8 @@
 				
 				<h:panelGroup>
 					<h:inputText id="email" value="#{usuarioBean.usuario.email}" label="Email">
-						<f:validator validatorId="com.gugawag.primeirojsf.validadores.Email" />
-						<f:ajax event="blur" render="mEmail"/>
+						<f:validator validatorId="ValidadorEmail"/>
+						<f:ajax event="blur" render="mEmail" execute="@this"/>
 					</h:inputText>
 					<h:message for="email" id="mEmail" style="color:red"/>
 				</h:panelGroup>
@@ -31,7 +31,7 @@
 				<h:outputText value="Estado:" />
 				<h:selectOneMenu id="estado" value="#{usuarioBean.usuario.uf}" label="Estado">
 					<f:selectItems value="#{usuarioBean.ufs}"/>
-					<f:ajax event="change" render="cidade" execute="@this" listener="#{usuarioBean.mudarUf}"/>
+					<f:ajax event="change" listener="#{usuarioBean.mudarUf()}" execute="@this" render="cidade"/>
 				</h:selectOneMenu>
 				
 				<h:outputText value="Cidade:" />
@@ -48,7 +48,7 @@
 				<h:outputText value="Redigitar senha:" />				
 				<h:panelGroup>
 					<h:inputText id="senhaRedigitada" value="#{usuarioBean.senhaRedigitada}" label="Senha Redigitada">
-						<f:ajax event="blur" listener="#{usuarioBean.checarSenhas}" execute="senha @this" render="textoSenhas" />
+						<!-- checarSenhas -->
 					</h:inputText>
 					<h:outputText value="#{usuarioBean.textoSenhas}" id="textoSenhas" style="#{usuarioBean.styleMensagemSenha}"/>
 				</h:panelGroup>
@@ -57,7 +57,7 @@
 
 			<br/>
 
-			<h:commandButton action="#{usuarioBean.cadastrar()}" value="Cadastrar" />
+			<h:commandButton actionListener="#{usuarioBean.cadastrar()}" value="Cadastrar" />
 			<br/>
 			<br/>
 		</rich:panel>

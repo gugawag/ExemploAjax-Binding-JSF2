@@ -36,4 +36,8 @@ public class UsuarioService {
 		return usuarioManager.getUsuariosLogados();
 	}
 
+	public void remover(Usuario usuario) {
+		usuarioManager.remover(usuario);
+	}
+
 }

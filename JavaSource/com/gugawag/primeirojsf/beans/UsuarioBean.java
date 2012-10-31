@@ -38,7 +38,6 @@ public class UsuarioBean {
 	}
 
 	//MŽtodos action
-	
 	public void mudarUf(){
 		cidades = new UF().getUfsCidades().get(usuario.getUf());
 	}
@@ -81,7 +80,7 @@ public class UsuarioBean {
 			textoSenhas = "Senhas conferem!";
 			styleMensagemSenha = "color:blue";
 		} else {
-			textoSenhas = "Senhas n‹o conferem!";
+			textoSenhas = "Senhas n‹ão conferem!";
 			styleMensagemSenha = "color:red";
 		}
 	}
@@ -126,7 +125,6 @@ public class UsuarioBean {
 		return dmUsuarios;
 	}
 	
-	//TODO refatorar essa parte de UFs. Usar enums?
 	public Set<String> getUfs(){
 		return new UF().getUfsCidades().keySet(); 
 	}
@@ -146,6 +144,10 @@ public class UsuarioBean {
 	public List<Mensagem> getMensagensRecebidas(){
 		usuario = usuarioService.getUsuarioPorLogin(usuario.getLogin());
 		return usuario.getMensagensRecebidas();
+	}
+	
+	public void remover(Usuario usuario){
+		usuarioService.remover(usuario);
 	}
 
 

@@ -48,5 +48,10 @@ public class UsuarioManager implements Serializable{
 			return usuarios.get(0);
 		}
 		return null;
+	}
+
+	public void remover(Usuario usuario) {
+		usuario = em.merge(usuario);
+		em.remove(usuario);
 	}	
 }

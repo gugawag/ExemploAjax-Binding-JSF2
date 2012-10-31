@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="TB_USUARIO")
+@Table(name="TB_USUARIO_TWITTER")
 public class Usuario implements Serializable, Comparable<Usuario>{
 
 	private static final long serialVersionUID = 1L;

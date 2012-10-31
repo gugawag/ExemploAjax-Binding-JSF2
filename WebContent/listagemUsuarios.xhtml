@@ -22,10 +22,14 @@
 						<h:column>
 							Nome
 						</h:column>
+						<h:column>
+							Apagar
+						</h:column>						
 					</f:facet>
 
 					<h:column>#{usuario.login}</h:column>
 					<h:column>#{usuario.nome}</h:column>
+					<h:column><h:commandLink action="#{usuarioBean.remover(usuario)}">X</h:commandLink></h:column>
 				</rich:dataTable>
 			</h:form>
 			</rich:panel>

@@ -23,8 +23,9 @@ public class MensagemBean {
 		super();
 	}
 
-	public void enviarMensagem(Usuario enviador){
+	public String enviarMensagem(Usuario enviador){
 		mensagemService.enviarMensagem(enviador, textoMensagem);
+		return null;
 	}
 	
 	public List<Mensagem> getMensagens(){

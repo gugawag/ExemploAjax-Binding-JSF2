@@ -7,7 +7,7 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
-@FacesValidator("com.gugawag.primeirojsf.validadores.Email")
+@FacesValidator("ValidEmail")
 public class EmailValidator implements Validator{
 
 	@Override
@@ -19,7 +19,7 @@ public class EmailValidator implements Validator{
 		
 		String email = (String) value;
 		if (!email.contains("@") || !email.contains(".") || email.endsWith(".") || email.endsWith("@")){
-			FacesMessage mensagem = new FacesMessage("email inv‡lido. Faltando @ e/ou .");
+			FacesMessage mensagem = new FacesMessage("email inv‡álido. Faltando @ e/ou .");
 			mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(mensagem);
 		}
